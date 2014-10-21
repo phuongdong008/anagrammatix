@@ -10,6 +10,8 @@
     <link href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
 
     <link href="css/styles.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -17,7 +19,27 @@
 
     <div id="gameArea">
         <!-- This is where the templates defined below will be used -->
+
     </div>
+
+    <script id="login-screen-template" type="text/template">
+        <div class="loginGameWrapper">
+            <div class="info">
+                <label for="inputUsername">Username:</label>
+                <input id="inputUsername" type="text" />
+            </div>
+
+            <div class="info">
+                <label for="inputPassword">Password:</label>
+                <input id="inputPassword" type="text"/>
+            </div>
+
+            <div class="info buttons btnLogin">
+                <button id="btnLogin" class="btn">Login</button>
+                <div id="signUp">or <a>Sign Up</a></div>
+            </div>
+        </div>
+    </script>
 
     <!-- Main Title Screen that appears when the page loads for the first time -->
     <script id="intro-screen-template" type="text/template">
@@ -36,8 +58,8 @@
             </div>
 
         </div>
-
     </script>
+
 
     <!-- This screen appears when a user clicks "CREATE" on the Title Screen -->
     <script id="create-game-template" type="text/template">
@@ -104,7 +126,7 @@
 
     <!-- If Socket.IO is used with Express, then the /socket.io/ path will
         serve the proper Socket.IO javascript files used by the browser -->
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="socket.io/socket.io.js"></script>
 
     <!-- app.js is where all the client-side Anagrammatix game logic -->
     <script src="app.js"></script>

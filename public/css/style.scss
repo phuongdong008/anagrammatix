@@ -1,0 +1,120 @@
+.info {
+  font-size: 1.5em;
+  color: #ECFFE0;
+}
+
+.loginGameWrapper {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 320px;
+  font-family: 'Quicksand', sans-serif;
+  margin: 0 auto;
+  text-align: center;
+
+  .info {
+    font-size: 1.5em;
+    color: #ECFFE0;
+    height: 20%;
+    padding-top: 1%;
+
+    input {
+      width: 80%;
+    }
+
+    label {
+//      position: relative;
+//      left: 9%;
+//      text-align: left;
+    }
+  }
+  .btnLogin{
+//    position: relative;
+//    left: -16.5%;
+    padding-top: 42px;
+
+    #btnLogin {
+      height: 65%;
+    }
+
+    #signUp {
+      padding-top: 20px;
+       a {
+         cursor: pointer;
+         &:hover{
+           color: #AE37B2;
+           text-decoration: none;
+         }
+       }
+
+    }
+  }
+
+}
+
+.mainScreenWrapper{
+  .header{
+    padding: 6px 0 15px 0;
+    border-bottom: 1px dotted white;
+    overflow: auto;
+
+    .user-name {
+      display: inline-block;
+      padding-left: 2%;
+    }
+
+    .btn-logout{
+      width: 152px;
+      font-size: 1.5em;
+      float: right;
+      padding: top;
+      margin-right: 4%;
+    }
+  }
+
+  .middle{
+    margin: 0;
+    text-align: center;
+    padding: 50px 0;
+    border-bottom: 1px dotted white;
+
+    .create-room{
+      font-size: 1.5em;
+    }
+  }
+}
+
+.block{
+  margin-top: 12px;
+}
+.tab{
+  border: 2px solid white;
+  border-bottom: 0;
+  border-left: 0;
+  border-radius: 0 5px 0 0;
+  text-align: center;
+  width: 30%;
+  font-size: 1em;
+  padding: 4px 0;
+}
+.user-name {
+  display: inline-block;
+  padding-left: 2%;
+}
+.row {
+  overflow: auto;
+  padding: 7px 0 12px 0;
+  border-bottom: 1px dotted white;
+}
+.btn-row{
+  font-size: 1.5em;
+  margin: 0px 2%;
+  float: right
+}
+.description{
+  display: inline;
+  color: #ECFFE0;
+}
+.first{
+  border-top: 1px dotted white;
+}
