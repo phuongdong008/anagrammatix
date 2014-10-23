@@ -148,7 +148,8 @@ jQuery(function($){
          */
         init: function () {
             App.cacheElements();
-            App.showInitScreen();
+            App.showLoginScreen();
+//            App.showInitScreen();
             App.bindEvents();
 
             // Initialize the fastclick library
@@ -163,6 +164,8 @@ jQuery(function($){
 
             // Templates
             App.$gameArea = $('#gameArea');
+            App.$templateLoginGame = $('#login-screen-template').html();
+            App.$templateUserRegister = $('#register-screen-template').html();
             App.$templateIntroScreen = $('#intro-screen-template').html();
             App.$templateNewGame = $('#create-game-template').html();
             App.$templateJoinGame = $('#join-game-template').html();
@@ -181,6 +184,9 @@ jQuery(function($){
             App.$doc.on('click', '#btnStart',App.Player.onPlayerStartClick);
             App.$doc.on('click', '.btnAnswer',App.Player.onPlayerAnswerClick);
             App.$doc.on('click', '#btnPlayerRestart', App.Player.onPlayerRestart);
+            App.$doc.on('click', '#btnLogin', App.Player.onLoginClick);
+//            App.$doc.on('click', '#signUp', App.Player.onSignup);
+//            App.$doc.on('click', '#btnRegister', App.Player.onRegister);
         },
 
         /* *************************************
@@ -196,6 +202,10 @@ jQuery(function($){
             App.doTextFit('.title');
         },
 
+
+        showLoginScreen: function () {
+            App.$gameArea.html(App.$templateLoginGame);
+        },
 
         /* *******************************
            *         HOST CODE           *
@@ -428,6 +438,50 @@ jQuery(function($){
              * The player's name entered on the 'Join' screen.
              */
             myName: '',
+
+            /**
+             * Handler for the "Login" button on the Title Screen.
+             */
+            onLoginClick: function () {
+                console.log('Clicked "Login"');
+                var data = {
+                    username : $('#inputUsername').val(),
+                    password : $('#inputPassword').val()
+                };
+
+                IO.socket.emit('playerLogin', data);
+            },
+
+            /**
+             * Handler for the "Sign Up" button on the Title Screen.
+             */
+            onSignup: function () {
+                // console.log('Clicked "Sign Up"');
+                App.$gameArea.html(App.$templateUserRegister);
+            },
+
+            /**
+             * Handler for the "Register" button on the Title Screen.
+             */
+            onRegister: function () {
+                console.log('Clicked "Register"');
+                alert('register');
+                $.post(
+                    '/register',
+                    {
+                        username: $('#inputUsername').val(),
+                        password: $('#inputPassword').val()
+                    },
+                    function(data){
+                        
+                    },
+                    error(function (err) {
+                        console.log(err);
+                    })
+                );
+//                $('#formRegister').submit();
+//                IO.socket.emit('playerRegister', data);
+            },
 
             /**
              * Click handler for the 'JOIN' button

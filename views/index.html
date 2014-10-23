@@ -9,9 +9,9 @@
     <!-- Let's borrow a cool looking Font from Google -->
     <link href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
 
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
 
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -31,12 +31,74 @@
 
             <div class="info">
                 <label for="inputPassword">Password:</label>
-                <input id="inputPassword" type="text"/>
+                <input id="inputPassword" type="password"/>
             </div>
 
             <div class="info buttons btnLogin">
                 <button id="btnLogin" class="btn">Login</button>
-                <div id="signUp">or <a>Sign Up</a></div>
+                <div id="signUp">or <a href="/register">Sign Up</a></div>
+            </div>
+        </div>
+    </script>
+
+    <script id="register-screen-template" type="text/template">
+        <div class="loginGameWrapper">
+            <div class="info">
+                <label for="inputUsername">Username:</label>
+                <input id="inputUsername" type="text" />
+            </div>
+
+            <div class="info">
+                <label for="inputPassword">Password:</label>
+                <input id="inputPassword" type="password"/>
+            </div>
+
+            <div class="info buttons btnLogin">
+                <button id="btnRegister" class="btn">Register</button>
+                <div id="btnBack">or <a>Log In</a></div>
+            </div>
+        </div>
+    </script>
+
+    <script id="main-screen-template" type="text/template">
+        <div class="mainScreenWrapper">
+            <div class="header">
+                <div class="info user-name">Welcome Tran Viet!</div>
+                <button class="btn btn-logout">Logout</button>
+            </div>
+            <div class="middle">
+                <button class="btn create-room">Create Room</button>
+            </div>
+
+            <div class="block">
+                <div class="tab info">Users Online</div>
+                <div class="table">
+                    <div class="row first">
+
+                        <div class="info user-name">User 1</div><div class="description"> is available </div>
+                        <button class="btn btn-row">Invite</button>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="info user-name">User 1</div><div class="description"> created room </div>
+                        <button class="btn btn-row">Join</button>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="info user-name">User 1</div><div class="description"> created room </div>
+                        <button class="btn btn-row">Join</button>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="info user-name">User 1</div><div class="description"> is available </div>
+                        <button class="btn btn-row">Invite</button>
+
+                    </div>
+
+                </div>
             </div>
         </div>
     </script>
@@ -113,23 +175,23 @@
     <!-- JavaScript Libraries -->
 
     <!-- jQuery! -->
-    <script src="libs/jquery-2.0.2.min.js"></script>
+    <script src="../libs/jquery-2.0.2.min.js"></script>
 
     <!-- TextFit resizes text to fill a container.
         It's used so the titles and game words fit properly on any size screen.
         https://github.com/STRML/textFit   -->
-    <script src="libs/textFit.min.js"></script>
+    <script src="../libs/textFit.min.js"></script>
 
     <!-- FastClick is used to eliminate the 300ms delay when clicking items on a mobile device
         https://github.com/ftlabs/fastclick -->
-    <script src="libs/fastclick.js"></script>
+    <script src="../libs/fastclick.js"></script>
 
     <!-- If Socket.IO is used with Express, then the /socket.io/ path will
         serve the proper Socket.IO javascript files used by the browser -->
     <script src="socket.io/socket.io.js"></script>
 
     <!-- app.js is where all the client-side Anagrammatix game logic -->
-    <script src="app.js"></script>
+    <script src="../app.js"></script>
 
 </body>
 </html>

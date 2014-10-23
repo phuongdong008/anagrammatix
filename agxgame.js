@@ -1,5 +1,6 @@
 var io;
 var gameSocket;
+var db;
 
 /**
  * This function is called by index.js to initialize a new game instance.
@@ -7,9 +8,11 @@ var gameSocket;
  * @param sio The Socket.IO library
  * @param socket The socket object for the connected client.
  */
-exports.initGame = function(sio, socket){
+exports.initGame = function(sio, socket, database){
     io = sio;
     gameSocket = socket;
+    db = database;
+
     gameSocket.emit('connected', { message: "You are connected!" });
 
     // Host Events
@@ -22,6 +25,8 @@ exports.initGame = function(sio, socket){
     gameSocket.on('playerJoinGame', playerJoinGame);
     gameSocket.on('playerAnswer', playerAnswer);
     gameSocket.on('playerRestart', playerRestart);
+    gameSocket.on('playerLogin', playerLogin);
+    gameSocket.on('playerRegister', playerRegister);
 }
 
 /* *******************************
@@ -85,6 +90,30 @@ function hostNextRound(data) {
    *     PLAYER FUNCTIONS      *
    *                           *
    ***************************** */
+/**
+ * A player clicked the 'LOGIN' button.
+ * @param data
+ */
+function playerLogin(data) {
+//    console.log('login');
+    db.login(data.username,data.password,function(success){
+        if (!success){
+            io.sockets.emit('loginFail',data);
+            console.log('login fail');
+            return;
+        }
+        console.log('login succeed');
+        io.sockets.emit('loginPass',data);
+    });
+}
+
+/**
+ * A player clicked the 'Register' button.
+ * @param data
+ */
+function playerRegister(data) {
+    db.register(data.username,data.password);
+}
 
 /**
  * A player clicked the 'START GAME' button.

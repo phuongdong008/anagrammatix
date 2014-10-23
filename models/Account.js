@@ -1,4 +1,4 @@
-module.exports = function(mongoose){
+exports.exports = function(mongoose){
     var AccountSchema = new mongoose.Schema({
         username: {type: String, unique: true},
         password: {type: String}
@@ -31,10 +31,10 @@ module.exports = function(mongoose){
         console.log('User' + username + 'created');
     }
 
-    return {
-        register: register,
-        login: login,
-        Account: Account
-    }
+//    return {
+//        register: register,
+//        login: login,
+//        Account: Account
+//    }
 }
 

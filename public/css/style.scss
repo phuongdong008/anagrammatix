@@ -3,6 +3,10 @@
   color: #ECFFE0;
 }
 
+a {
+  color: #ECFFE0;
+}
+
 .loginGameWrapper {
   margin: 0;
   padding: 0;
@@ -22,31 +26,24 @@
       width: 80%;
     }
 
-    label {
-//      position: relative;
-//      left: 9%;
-//      text-align: left;
-    }
   }
   .btnLogin{
-//    position: relative;
-//    left: -16.5%;
     padding-top: 42px;
+  }
 
-    #btnLogin {
-      height: 65%;
-    }
+}
 
-    #signUp {
-      padding-top: 20px;
-       a {
-         cursor: pointer;
-         &:hover{
-           color: #AE37B2;
-           text-decoration: none;
-         }
-       }
+#btnLogin ,#btnRegister{
+  height: 65%;
+}
 
+#signUp, #btnBack {
+  padding-top: 20px;
+  a {
+    cursor: pointer;
+    &:hover{
+      color: #AE37B2;
+      text-decoration: none;
     }
   }
 

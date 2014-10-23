@@ -2,6 +2,9 @@
   font-size: 1.5em;
   color: #ECFFE0; }
 
+a {
+  color: #ECFFE0; }
+
 .loginGameWrapper {
   margin: 0;
   padding: 0;
@@ -19,15 +22,17 @@
       width: 80%; }
   .loginGameWrapper .btnLogin {
     padding-top: 42px; }
-    .loginGameWrapper .btnLogin #btnLogin {
-      height: 65%; }
-    .loginGameWrapper .btnLogin #signUp {
-      padding-top: 20px; }
-      .loginGameWrapper .btnLogin #signUp a {
-        cursor: pointer; }
-        .loginGameWrapper .btnLogin #signUp a:hover {
-          color: #AE37B2;
-          text-decoration: none; }
+
+#btnLogin, #btnRegister {
+  height: 65%; }
+
+#signUp, #btnBack {
+  padding-top: 20px; }
+  #signUp a, #btnBack a {
+    cursor: pointer; }
+    #signUp a:hover, #btnBack a:hover {
+      color: #AE37B2;
+      text-decoration: none; }
 
 .mainScreenWrapper .header {
   padding: 6px 0 15px 0;
