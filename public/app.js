@@ -148,8 +148,8 @@ jQuery(function($){
          */
         init: function () {
             App.cacheElements();
-            App.showLoginScreen();
-//            App.showInitScreen();
+//            App.showLoginScreen();
+            App.showInitScreen();
             App.bindEvents();
 
             // Initialize the fastclick library
@@ -166,6 +166,7 @@ jQuery(function($){
             App.$gameArea = $('#gameArea');
             App.$templateLoginGame = $('#login-screen-template').html();
             App.$templateUserRegister = $('#register-screen-template').html();
+            App.$templateMainScreen = $('#main-screen-template').html();
             App.$templateIntroScreen = $('#intro-screen-template').html();
             App.$templateNewGame = $('#create-game-template').html();
             App.$templateJoinGame = $('#join-game-template').html();
@@ -184,7 +185,7 @@ jQuery(function($){
             App.$doc.on('click', '#btnStart',App.Player.onPlayerStartClick);
             App.$doc.on('click', '.btnAnswer',App.Player.onPlayerAnswerClick);
             App.$doc.on('click', '#btnPlayerRestart', App.Player.onPlayerRestart);
-            App.$doc.on('click', '#btnLogin', App.Player.onLoginClick);
+//            App.$doc.on('click', '#btnLogin', App.Player.onLoginClick);
 //            App.$doc.on('click', '#signUp', App.Player.onSignup);
 //            App.$doc.on('click', '#btnRegister', App.Player.onRegister);
         },
@@ -198,8 +199,9 @@ jQuery(function($){
          * (with Start and Join buttons)
          */
         showInitScreen: function() {
-            App.$gameArea.html(App.$templateIntroScreen);
-            App.doTextFit('.title');
+//            App.$gameArea.html(App.$templateIntroScreen);
+//            App.doTextFit('.title');
+            App.$gameArea.html(App.$templateMainScreen);
         },
 
 

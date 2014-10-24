@@ -15,11 +15,12 @@ module.exports = function(mongoose){
 
     var login = function(username,password,callback){
         Account.findOne({username:username, password:password}, function (err,doc) {
-            callback(doc != null);
+//            console.log(username + ' Logging/ ' + 'doc ' + doc );
+            callback(doc);
         })
     }
 
-    var register = function(username,password,req){
+    var register = function(username,password,callback){
         console.log('Registering ' + username);
 
         var user = new Account({
@@ -28,14 +29,12 @@ module.exports = function(mongoose){
         });
 
         user.save(function (err, doc) {
-            if (err){
-                console.log(err);
-            };
-            req.session.accountId = doc._id;
-            console.log('id ' + req.session.accountId);
-            return console.log('Account is created');
+            callback(doc);
+//            req.session.accountId = doc._id;
+//            console.log('id ' + req.session.accountId);
+            console.log(err);
         });
-        console.log('User ' + username + ' created');
+
     }
 
     return {

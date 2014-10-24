@@ -45,8 +45,23 @@ app.configure(function() {
 });
 
     // Route handler
+
+//    app.use(function(req,res,next){
+//        if (!req.session.accountId)
+//            res.render('login.html');
+//        else
+//            next();
+//        });
+
+    app.get('/login',function(req,res){
+        res.render('login.html');
+    });
+
     app.get('/', function(req, res) {
-        res.render('index.html');
+        if (!req.session.accountId)
+            res.redirect('/login');
+        else
+            res.render('index.html');
     });
 
     app.get('/main', function(req, res) {
@@ -64,8 +79,41 @@ app.configure(function() {
         if ( null == username || null == pwd){
             res.render('register.html');
         }else{
-            Account.register(username,pwd,req);
-            res.redirect('/main');
+            Account.register(username,pwd,function(doc){
+                if (doc == null) {                              // Document returned from db.save() query
+                    console.log('register error');
+                    res.render('register.html');
+                }else {
+                    req.session.accountId = doc._id;
+                    res.redirect('/');
+                }
+            });
+
+        }
+    });
+
+    app.get('/logout',function(req,res){
+        req.session.accountId = null;
+        res.redirect('/');
+    });
+
+    app.post('/login',function(req, res) {
+        var username = req.body.username;
+        var pwd = req.body.password;
+
+        if ( null == username || null == pwd){
+            res.render('login.html');
+        }else{
+            Account.login(username,pwd,function(doc){
+                if (doc == null) {                              // Document returned from db.save() query
+                    console.log('login error');
+                    res.render('login.html');
+                }else {
+                    req.session.accountId = doc._id;
+                    res.redirect('/');
+                }
+            });
+
         }
     });
 
