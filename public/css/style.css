@@ -5,6 +5,9 @@
 a {
   color: #ECFFE0; }
 
+.hidden {
+  display: none; }
+
 .loginGameWrapper {
   margin: 0;
   padding: 0;

@@ -2,12 +2,23 @@
 jQuery(function($){    
     'use strict';
 
+//    $.get('/').done(function(data){ alert(data); });
+
     /**
      * All the code relevant to Socket.IO is collected in the IO namespace.
      *
      * @type {{init: Function, bindEvents: Function, onConnected: Function, onNewGameCreated: Function, playerJoinedRoom: Function, beginNewGame: Function, onNewWordData: Function, hostCheckAnswer: Function, gameOver: Function, error: Function}}
      */
     var IO = {
+        /**
+         * Infomation about user
+         */
+        userObject: null,
+
+        /**
+         * List users online
+         */
+        onlineList: null,
 
         /**
          * This is called when the page is displayed. It connects the Socket.IO client
@@ -31,15 +42,28 @@ jQuery(function($){
             IO.socket.on('hostCheckAnswer', IO.hostCheckAnswer);
             IO.socket.on('gameOver', IO.gameOver);
             IO.socket.on('error', IO.error );
+            IO.socket.on('userOnline', IO.userOnline );
+        },
+
+        /**
+         * when user logged in
+         */
+        userOnline : function(data) {
+//            console.log('event userOnline :' + data.username);
+//            IO.userObject = data.userObject;
+//            IO.onlineList = data.onlineList;
+//            $('#username').html('Welcome ' + data.username + '!');
+//            alert('event userOnline :' + IO.userObject.username);
         },
 
         /**
          * The client is successfully connected!
          */
-        onConnected : function() {
+        onConnected : function(data) {
             // Cache a copy of the client's socket.IO session ID on the App
             App.mySocketId = IO.socket.socket.sessionid;
-            // console.log(data.message);
+            console.log(data);
+//            alert(data);
         },
 
         /**
@@ -202,6 +226,7 @@ jQuery(function($){
 //            App.$gameArea.html(App.$templateIntroScreen);
 //            App.doTextFit('.title');
             App.$gameArea.html(App.$templateMainScreen);
+//            $('#username').html(IO.userObject.username);
         },
 
 
@@ -255,7 +280,7 @@ jQuery(function($){
                 App.Host.numPlayersInRoom = 0;
 
                 App.Host.displayNewGameScreen();
-                // console.log("Game started with ID: " + App.gameId + ' by host: ' + App.mySocketId);
+                console.log("Game started with ID: " + App.gameId + ' by host: ' + App.mySocketId);
             },
 
             /**
@@ -467,7 +492,6 @@ jQuery(function($){
              */
             onRegister: function () {
                 console.log('Clicked "Register"');
-                alert('register');
                 $.post(
                     '/register',
                     {

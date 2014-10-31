@@ -1,7 +1,8 @@
 module.exports = function(mongoose){
     var AccountSchema = new mongoose.Schema({
         username: {type: String, unique: true},
-        password: {type: String}
+        password: {type: String},
+        online: {type: Boolean}
     });
 
     var Account = mongoose.model('Account', AccountSchema);
@@ -12,6 +13,18 @@ module.exports = function(mongoose){
 //        };
 //        return console.log('Account is created');
 //    }
+
+    var online = function(username){
+        Account.update({username: username}, {online: true}, {upsert: true}, function(err){
+//            console.log('online: ' + err );
+        });
+    }
+
+    var offline = function(username){
+        Account.update({username: username}, {online: false}, {upsert: true}, function(err){
+//            console.log('offline: ' + err );
+        });
+    }
 
     var login = function(username,password,callback){
         Account.findOne({username:username, password:password}, function (err,doc) {
@@ -25,19 +38,32 @@ module.exports = function(mongoose){
 
         var user = new Account({
             username: username,
-            password: password
+            password: password,
+            online: true
         });
 
         user.save(function (err, doc) {
             callback(doc);
-//            req.session.accountId = doc._id;
-//            console.log('id ' + req.session.accountId);
-            console.log(err);
+            console.log('err: ' + err);
         });
 
     }
 
+    var onlineList = function(userId,callback){
+        console.log('Get online list');
+        list = Account.find({online: true})
+                        .where('_id')
+//                        .ne(userId)
+                        .find(function(err,docs){
+//                            console.log('err ' + err + ' list: ' + docs);
+                            callback(docs);
+                        });
+    }
+
     return {
+        online: online,
+        offline: offline,
+        onlineList: onlineList,
         register: register,
         login: login,
         Account: Account

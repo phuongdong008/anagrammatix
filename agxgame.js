@@ -39,6 +39,7 @@ exports.initGame = function(sio, socket, database){
  * The 'START' button was clicked and 'hostCreateNewGame' event occurred.
  */
 function hostCreateNewGame() {
+    console.log('host created new game');
     // Create a unique Socket.IO Room
     var thisGameId = ( Math.random() * 100000 ) | 0;
 
