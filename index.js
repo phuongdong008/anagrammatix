@@ -67,7 +67,8 @@ app.configure(function() {
         else {
             Account.onlineList(req.session.accountId, function(docs){
                 var list = docs;
-                console.log('online list: ' + list);
+                user = req.session.user;
+//                console.log('online list: ' + list);
                 res.render('index', {username: req.session.user.username, onlineList: list, user: req.session.user });
             });
         }
@@ -107,7 +108,8 @@ app.configure(function() {
         if (!req.session.accountId)
             res.redirect('/login');
         else {
-//            user = req.session.user;
+            user = req.session.user;
+            console.log('username '+ user.username + ' log out');
             Account.offline(user.username);
             req.session.accountId = null;
             req.session.user = null;
@@ -129,7 +131,7 @@ app.configure(function() {
                 }else {
                     req.session.accountId = doc._id;
                     user = req.session.user = doc;
-
+                    console.log('username '+ username + ' log in');
                     Account.online(username);
 
 //                    var data = {
@@ -138,7 +140,6 @@ app.configure(function() {
 //                    };
 
                     res.redirect('/');
-
                 }
             });
 
@@ -149,13 +150,17 @@ app.configure(function() {
 // Listen for Socket.IO Connections. Once connected, start the game logic.
 io.sockets.on('connection', function (socket) {
     if (user != null) {
-        socket.emit('userOnline', {username: user.username});
-        console.log('socketId: ' + socketId + '_' + user.username);
+        socket.broadcast.emit('userOnline', {username: user.username, user: user});
+//        console.log('socketId: ' + socket.id + '_' + user.username);
     }
     socketId = socket.id;
 
     agx.initGame(io, socket, Account);
     socket.on('disconnect', function() {
-        console.log('disconect ' + socketId);
+        if (user != null) {
+            socket.broadcast.emit('userOffline', {username: user.username, user: user});
+//            console.log('disconect ' + socket.id);
+        }
+
     });
 });

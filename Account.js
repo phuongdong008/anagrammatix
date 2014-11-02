@@ -15,13 +15,13 @@ module.exports = function(mongoose){
 //    }
 
     var online = function(username){
-        Account.update({username: username}, {online: true}, {upsert: true}, function(err){
+        Account.update({username: username}, {online: true}, {upsert: false}, function(err){
 //            console.log('online: ' + err );
         });
     }
 
     var offline = function(username){
-        Account.update({username: username}, {online: false}, {upsert: true}, function(err){
+        Account.update({username: username}, {online: false}, {upsert: false}, function(err){
 //            console.log('offline: ' + err );
         });
     }
@@ -50,7 +50,7 @@ module.exports = function(mongoose){
     }
 
     var onlineList = function(userId,callback){
-        console.log('Get online list');
+//        console.log('Get online list');
         list = Account.find({online: true})
                         .where('_id')
 //                        .ne(userId)

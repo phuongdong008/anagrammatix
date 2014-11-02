@@ -43,6 +43,7 @@ jQuery(function($){
             IO.socket.on('gameOver', IO.gameOver);
             IO.socket.on('error', IO.error );
             IO.socket.on('userOnline', IO.userOnline );
+            IO.socket.on('userOffline', IO.userOffline );
         },
 
         /**
@@ -53,7 +54,21 @@ jQuery(function($){
 //            IO.userObject = data.userObject;
 //            IO.onlineList = data.onlineList;
 //            $('#username').html('Welcome ' + data.username + '!');
-//            alert('event userOnline :' + IO.userObject.username);
+//            alert('event userOnline :' + data.username);
+            $('#' + data.user._id).remove();
+            $('<div id="'+data.user._id+'" class="row"></div>').insertAfter('.first-row');
+            $('#' + data.user._id).prepend('<div class="info user-name">'+ data.user.username +'</div>'
+                                        + '<div class="description"> created room</div>'
+                                        + '<button class="btn btn-row">Join</button>'
+                                            );
+        },
+
+        /**
+         * when user logged out
+         */
+        userOffline : function(data) {
+//            alert('event userOffline :' + data.username);
+            $('#' + data.user._id).remove();
         },
 
         /**
@@ -62,7 +77,7 @@ jQuery(function($){
         onConnected : function(data) {
             // Cache a copy of the client's socket.IO session ID on the App
             App.mySocketId = IO.socket.socket.sessionid;
-            console.log(data);
+//            console.log(data);
 //            alert(data);
         },
 

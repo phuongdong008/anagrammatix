@@ -15,18 +15,19 @@ link(href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700', rel='
         .block
             .tab.info Users Online
             .table
+                div(class = 'first-row')
                 - var i = 0;
                 each object in onlineList
                     if (object.username != username)
                         - i++
                         if (i == 1)
-                            .row.first
-                                div(id ='#{object.username}', class = 'info user-name') #{object.username}
+                            div(id ='#{object._id}', class = 'row')
+                                div(class = 'info user-name') #{object.username}
                                 .description  created room
                                 button.btn.btn-row Join
                         else
-                            .row
-                                div(id = '#{object.username}', class = 'info user-name') #{object.username}
+                            div(id ='#{object._id}', class = 'row')
+                                div(class = 'info user-name') #{object.username}
                                 .description  created room
                                 button.btn.btn-row Join
 
