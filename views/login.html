@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+
+    <link href="../css/styles.css" rel="stylesheet">
+
+    <link href="../css/style.css" rel="stylesheet">
+
+</head>
+<body>
+    <form id="formLogin" method="post" action="/login">
+        <div class="loginGameWrapper">
+            <div class="info">
+                <label for="inputUsername">Username:</label>
+                <input id="inputUsername" name="username" type="text" value="test"/>
+            </div>
+
+            <div class="info">
+                <label for="inputPassword">Password:</label>
+                <input id="inputPassword" name="password" type="password" value="123"/>
+            </div>
+
+            <div class="info buttons btnLogin">
+                <button id="btnLogin" class="btn">Login</button>
+                <div id="signUp">or <a href="/register">Sign Up</a></div>
+            </div>
+        </div>
+    </form>
+
+    <!--<script src="socket.io/socket.io.js"></script>-->
+
+    <!--<script src="../app.js"></script>-->
+</body>
+</html>
