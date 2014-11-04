@@ -7,7 +7,7 @@
         "express": ">= 3.x",
         "socket.io":"0.9",
         "mongoose": ">= 2.6.5"
-    }
+    },
     "scripts": {
         "start": node index.js
     }
