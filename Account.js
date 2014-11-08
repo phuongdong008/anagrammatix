@@ -2,17 +2,11 @@ module.exports = function(mongoose){
     var AccountSchema = new mongoose.Schema({
         username: {type: String, unique: true},
         password: {type: String},
-        online: {type: Boolean}
+        online: {type: Boolean},
+        createGame: {type: Boolean}
     });
 
     var Account = mongoose.model('Account', AccountSchema);
-
-//    var registerCallback = function(err){
-//        if (err){
-//            console.log(err);
-//        };
-//        return console.log('Account is created');
-//    }
 
     var online = function(username){
         Account.update({username: username}, {online: true}, {upsert: false}, function(err){
@@ -21,7 +15,7 @@ module.exports = function(mongoose){
     }
 
     var offline = function(username){
-        Account.update({username: username}, {online: false}, {upsert: false}, function(err){
+        Account.update({username: username}, {online: false, createGame: false}, {upsert: false}, function(err){
 //            console.log('offline: ' + err );
         });
     }
@@ -39,7 +33,8 @@ module.exports = function(mongoose){
         var user = new Account({
             username: username,
             password: password,
-            online: true
+            online: true,
+            createGame: false
         });
 
         user.save(function (err, doc) {
@@ -50,14 +45,18 @@ module.exports = function(mongoose){
     }
 
     var onlineList = function(userId,callback){
-//        console.log('Get online list');
         list = Account.find({online: true})
-                        .where('_id')
+//                        .where('_id')
 //                        .ne(userId)
                         .find(function(err,docs){
-//                            console.log('err ' + err + ' list: ' + docs);
                             callback(docs);
                         });
+    }
+
+    var createGame = function(userId){
+        Account.update({_id: userId}, {createGame: true}, function(err,doc){
+//            console.log('err: ' + err);
+        })
     }
 
     return {
@@ -66,6 +65,7 @@ module.exports = function(mongoose){
         onlineList: onlineList,
         register: register,
         login: login,
+        createGame: createGame,
         Account: Account
     }
 }

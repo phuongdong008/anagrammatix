@@ -58,8 +58,8 @@ jQuery(function($){
             $('#' + data.user._id).remove();
             $('<div id="'+data.user._id+'" class="row"></div>').insertAfter('.first-row');
             $('#' + data.user._id).prepend('<div class="info user-name">'+ data.user.username +'</div>'
-                                        + '<div class="description"> created room</div>'
-                                        + '<button class="btn btn-row">Join</button>'
+                                        + '<div class="description"> is online</div>'
+//                                        + '<button class="btn btn-row">Join</button>'
                                             );
         },
 
@@ -86,6 +86,9 @@ jQuery(function($){
          * @param data {{ gameId: int, mySocketId: * }}
          */
         onNewGameCreated : function(data) {
+            $('#' + data.userId + '> .description').text(' created room');
+            $('#' + data.userId).append('<button class="btn btn-row">Join</button>');
+
             App.Host.gameInit(data);
         },
 
@@ -210,6 +213,7 @@ jQuery(function($){
             App.$templateNewGame = $('#create-game-template').html();
             App.$templateJoinGame = $('#join-game-template').html();
             App.$hostGame = $('#host-game-template').html();
+            App.$userId = $('#userId').val();
         },
 
         /**
@@ -281,7 +285,10 @@ jQuery(function($){
              */
             onCreateClick: function () {
                 // console.log('Clicked "Create A Game"');
-                IO.socket.emit('hostCreateNewGame');
+//                IO.socket.emit('hostCreateNewGame');
+                $('#btnCreateGame').remove();
+                $('.middle').append('<div class="create-room">You created room. Please wait for user join!</div>');
+                IO.socket.emit('userCreateGame',{userId: App.$userId});
             },
 
             /**
@@ -295,22 +302,14 @@ jQuery(function($){
                 App.Host.numPlayersInRoom = 0;
 
                 App.Host.displayNewGameScreen();
-                console.log("Game started with ID: " + App.gameId + ' by host: ' + App.mySocketId);
+                console.log("Game started with ID: " + App.gameId + ' by host: ' + App.mySocketId + ' user id: ' + App.$userId);
             },
 
             /**
              * Show the Host screen containing the game URL and unique game ID
              */
             displayNewGameScreen : function() {
-                // Fill the game screen with the appropriate HTML
-                App.$gameArea.html(App.$templateNewGame);
 
-                // Display the URL on screen
-                $('#gameURL').text(window.location.href);
-                App.doTextFit('#gameURL');
-
-                // Show the gameId / room id on screen
-                $('#spanNewGameCode').text(App.gameId);
             },
 
             /**

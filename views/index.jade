@@ -19,27 +19,21 @@ link(href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700', rel='
                 - var i = 0;
                 each object in onlineList
                     if (object.username != username)
-                        - i++
-                        if (i == 1)
+                        //- i++
+                        //if (i == 1)
+                        if (!object.createGame)
                             div(id ='#{object._id}', class = 'row')
                                 div(class = 'info user-name') #{object.username}
-                                .description  created room
-                                button.btn.btn-row Join
+                                .description  is online
+                                //button.btn.btn-row Join
                         else
                             div(id ='#{object._id}', class = 'row')
                                 div(class = 'info user-name') #{object.username}
                                 .description  created room
                                 button.btn.btn-row Join
 
-// Main Title Screen that appears when the page loads for the first time
-#intro-screen-template.hidden
-    .titleWrapper
-        .title
-            | ANAGRAMMATIX
-        .buttons
-            // <button id="btnCreateGame" class="btn left">CREATE</button>
-            button#btnJoinGame.btn.right JOIN
-            div(style='clear:both')
+        input(value ='#{user._id}',type = 'hidden',id = 'userId' )
+
 // This screen appears when a user clicks "CREATE" on the Title Screen
 #create-game-template.hidden
     .createGameWrapper
