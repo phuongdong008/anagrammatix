@@ -70,6 +70,7 @@ app.configure(function() {
                 user = req.session.user;
 //                console.log('online list: ' + list);
                 res.render('index', {username: req.session.user.username, onlineList: list, user: req.session.user });
+//                res.render('index.html');
             });
         }
     });
@@ -109,7 +110,7 @@ app.configure(function() {
             res.redirect('/login');
         else {
             user = req.session.user;
-            console.log('username '+ user.username + ' log out');
+//            console.log('username '+ user.username + ' log out');
             Account.offline(user.username);
             req.session.accountId = null;
             req.session.user = null;
@@ -131,14 +132,8 @@ app.configure(function() {
                 }else {
                     req.session.accountId = doc._id;
                     user = req.session.user = doc;
-                    console.log('username '+ username + ' log in');
+//                    console.log('username '+ username + ' log in');
                     Account.online(username);
-
-//                    var data = {
-//                        onlineList: list,
-//                        userObject: doc
-//                    };
-
                     res.redirect('/');
                 }
             });

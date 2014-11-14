@@ -19,7 +19,30 @@
 
 <div id="gameArea">
     <!-- This is where the templates defined below will be used -->
+    <div id="host-game-template" >
+        <div id="playerScores">
+            <div id="player1Score" class="playerScore">
+                <span class="score">0</span><span class="playerName">Player 1</span>
+            </div>
+            <div id="player2Score" class="playerScore">
+                <span class="playerName">Player 2</span><span class="score">0</span>
+            </div>
+        </div>
 
+        <div id="wordArea">
+            <div id="hostWord" style="display: table; text-align: center;">
+                <span class="textfitted" style="display: table-cell; vertical-align: middle; text-align: center; font-size: 100px;">
+                    lead
+                </span>
+            </div>
+        </div>
+
+    </div>
+    <ul id="ulAnswers">
+        <li> <button class='btnAnswer btn' value='word'>word</button> </li>
+        <li> <button class='btnAnswer btn' value='word'>word</button> </li>
+        <li> <button class='btnAnswer btn' value='word'>word</button> </li>
+    </ul>
 </div>
 
 <div id="main-screen-template" class="hidden">

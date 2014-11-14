@@ -3,7 +3,7 @@ module.exports = function(mongoose){
         username: {type: String, unique: true},
         password: {type: String},
         online: {type: Boolean},
-        createGame: {type: Boolean}
+        status: {type: String}
     });
 
     var Account = mongoose.model('Account', AccountSchema);
@@ -15,7 +15,7 @@ module.exports = function(mongoose){
     }
 
     var offline = function(username){
-        Account.update({username: username}, {online: false, createGame: false}, {upsert: false}, function(err){
+        Account.update({username: username}, {online: false, status: ''}, {upsert: false}, function(err){
 //            console.log('offline: ' + err );
         });
     }
@@ -34,7 +34,7 @@ module.exports = function(mongoose){
             username: username,
             password: password,
             online: true,
-            createGame: false
+            status: ''
         });
 
         user.save(function (err, doc) {
@@ -54,7 +54,7 @@ module.exports = function(mongoose){
     }
 
     var createGame = function(userId){
-        Account.update({_id: userId}, {createGame: true}, function(err,doc){
+        Account.update({_id: userId}, {status: 'create_game'}, function(err,doc){
 //            console.log('err: ' + err);
         })
     }

@@ -16,7 +16,7 @@ exports.initGame = function(sio, socket, database){
     gameSocket.emit('connected', { message: "You are connected!" });
 
     // Host Events
-    gameSocket.on('hostCreateNewGame', hostCreateNewGame);
+//    gameSocket.on('hostCreateNewGame', hostCreateNewGame);
     gameSocket.on('hostRoomFull', hostPrepareGame);
     gameSocket.on('hostCountdownFinished', hostStartGame);
     gameSocket.on('hostNextRound', hostNextRound);
@@ -39,17 +39,17 @@ exports.initGame = function(sio, socket, database){
 /**
  * The 'START' button was clicked and 'hostCreateNewGame' event occurred.
  */
-function hostCreateNewGame() {
-    console.log('host created new game');
-    // Create a unique Socket.IO Room
-    var thisGameId = ( Math.random() * 100000 ) | 0;
-
-    // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
-    this.emit('newGameCreated', {gameId: thisGameId, mySocketId: this.id});
-
-    // Join the Room and wait for the players
-    this.join(thisGameId.toString());
-};
+//function hostCreateNewGame() {
+//    console.log('host created new game');
+//    // Create a unique Socket.IO Room
+//    var thisGameId = ( Math.random() * 100000 ) | 0;
+//
+//    // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
+//    this.emit('newGameCreated', {gameId: thisGameId, mySocketId: this.id});
+//
+//    // Join the Room and wait for the players
+//    this.join(thisGameId.toString());
+//};
 
 function userCreateGame(data) {
     console.log('user created new game ');
@@ -58,21 +58,21 @@ function userCreateGame(data) {
 
     // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
 //    this.emit('newGameCreated', {gameId: thisGameId, mySocketId: this.id, userId: data.userId});
-    io.sockets.emit('newGameCreated', {gameId: thisGameId, mySocketId: this.id, userId: data.userId});
-
+    gameSocket.broadcast.emit('newGameCreated', {gameId: thisGameId, mySocketId: this.id, playerName: data.userName, userId: data.userId});
+//    console.log(data.userName + ' ' + data.userId);
     // Join the Room and wait for the players
     this.join(thisGameId.toString());
 };
 
 /*
  * Two players have joined. Alert the host!
- * @param gameId The game ID / room ID
+ * @param data contains {gameId}
  */
-function hostPrepareGame(gameId) {
+function hostPrepareGame(data) {
     var sock = this;
     var data = {
         mySocketId : sock.id,
-        gameId : gameId
+        gameId : data.gameId
     };
     //console.log("All Players Present. Preparing game...");
     io.sockets.in(data.gameId).emit('beginNewGame', data);
@@ -279,45 +279,46 @@ var wordPool = [
     {
         "words"  : [ "item","time","mite","emit" ],
         "decoys" : [ "neat","team","omit","tame","mate","idem","mile","lime","tire","exit" ]
-    },
-
-    {
-        "words"  : [ "spat","past","pats","taps" ],
-        "decoys" : [ "pots","laps","step","lets","pint","atop","tapa","rapt","swap","yaps" ]
-    },
-
-    {
-        "words"  : [ "nest","sent","nets","tens" ],
-        "decoys" : [ "tend","went","lent","teen","neat","ante","tone","newt","vent","elan" ]
-    },
-
-    {
-        "words"  : [ "pale","leap","plea","peal" ],
-        "decoys" : [ "sale","pail","play","lips","slip","pile","pleb","pled","help","lope" ]
-    },
-
-    {
-        "words"  : [ "races","cares","scare","acres" ],
-        "decoys" : [ "crass","scary","seeds","score","screw","cager","clear","recap","trace","cadre" ]
-    },
-
-    {
-        "words"  : [ "bowel","elbow","below","beowl" ],
-        "decoys" : [ "bowed","bower","robed","probe","roble","bowls","blows","brawl","bylaw","ebola" ]
-    },
-
-    {
-        "words"  : [ "dates","stead","sated","adset" ],
-        "decoys" : [ "seats","diety","seeds","today","sited","dotes","tides","duets","deist","diets" ]
-    },
-
-    {
-        "words"  : [ "spear","parse","reaps","pares" ],
-        "decoys" : [ "ramps","tarps","strep","spore","repos","peris","strap","perms","ropes","super" ]
-    },
-
-    {
-        "words"  : [ "stone","tones","steno","onset" ],
-        "decoys" : [ "snout","tongs","stent","tense","terns","santo","stony","toons","snort","stint" ]
     }
+//    ,
+//
+//    {
+//        "words"  : [ "spat","past","pats","taps" ],
+//        "decoys" : [ "pots","laps","step","lets","pint","atop","tapa","rapt","swap","yaps" ]
+//    },
+//
+//    {
+//        "words"  : [ "nest","sent","nets","tens" ],
+//        "decoys" : [ "tend","went","lent","teen","neat","ante","tone","newt","vent","elan" ]
+//    },
+//
+//    {
+//        "words"  : [ "pale","leap","plea","peal" ],
+//        "decoys" : [ "sale","pail","play","lips","slip","pile","pleb","pled","help","lope" ]
+//    },
+//
+//    {
+//        "words"  : [ "races","cares","scare","acres" ],
+//        "decoys" : [ "crass","scary","seeds","score","screw","cager","clear","recap","trace","cadre" ]
+//    },
+//
+//    {
+//        "words"  : [ "bowel","elbow","below","beowl" ],
+//        "decoys" : [ "bowed","bower","robed","probe","roble","bowls","blows","brawl","bylaw","ebola" ]
+//    },
+//
+//    {
+//        "words"  : [ "dates","stead","sated","adset" ],
+//        "decoys" : [ "seats","diety","seeds","today","sited","dotes","tides","duets","deist","diets" ]
+//    },
+//
+//    {
+//        "words"  : [ "spear","parse","reaps","pares" ],
+//        "decoys" : [ "ramps","tarps","strep","spore","repos","peris","strap","perms","ropes","super" ]
+//    },
+//
+//    {
+//        "words"  : [ "stone","tones","steno","onset" ],
+//        "decoys" : [ "snout","tongs","stent","tense","terns","santo","stony","toons","snort","stint" ]
+//    }
 ]

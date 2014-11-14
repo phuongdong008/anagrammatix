@@ -7,8 +7,11 @@ link(href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700', rel='
 #main-screen-template.hidden
     .mainScreenWrapper
         .header
-            #username.info.user-name Welcome #{username}!
-            button.btn.btn-logout
+            .info.user-name Welcome
+                nbsp
+                span#username #{username}
+                | !
+            div.btn.btn-logout
                 a(href='/logout', style='text-decoration: none;') Logout
         .middle
             button#btnCreateGame.btn.create-room Create Room
@@ -21,16 +24,16 @@ link(href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700', rel='
                     if (object.username != username)
                         //- i++
                         //if (i == 1)
-                        if (!object.createGame)
+                        if (object.status == 'create_game')
+                            div(id ='#{object._id}', class = 'row')
+                                div(class = 'info user-name') #{object.username}
+                                .description  created room
+                                button.btn.btn-row.join-btn Join
+                        else
                             div(id ='#{object._id}', class = 'row')
                                 div(class = 'info user-name') #{object.username}
                                 .description  is online
                                 //button.btn.btn-row Join
-                        else
-                            div(id ='#{object._id}', class = 'row')
-                                div(class = 'info user-name') #{object.username}
-                                .description  created room
-                                button.btn.btn-row Join
 
         input(value ='#{user._id}',type = 'hidden',id = 'userId' )
 
@@ -61,8 +64,6 @@ link(href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700', rel='
             #playerWaitingMessage
 // This is the 'Host' screen. It displays the word for each player to match
 #host-game-template.hidden
-    #wordArea
-        #hostWord 5
     #playerScores
         #player1Score.playerScore
             span.score 0
@@ -70,6 +71,8 @@ link(href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700', rel='
         #player2Score.playerScore
             span.playerName Player 2
             span.score 0
+    #wordArea
+        #hostWord 5
 // JavaScript Libraries
 // jQuery!
 script(src='../libs/jquery-2.0.2.min.js')
