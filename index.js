@@ -151,9 +151,6 @@ io.sockets.on('connection', function (socket) {
     socketId = socket.id;
 
     agx.initGame(io, socket, Account);
-    socket.on('userCreateGame', function(data){
-        Account.createGame(data.userId);
-    });
 
     socket.on('disconnect', function() {
         if (user != null) {

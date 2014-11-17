@@ -205,7 +205,7 @@ html, body {
     margin: 0;
     padding: 0;
         background: #8AD453;
-        height: 70%;
+        /*height: 70%;*/
 }
 
 #ulAnswers li {
@@ -238,8 +238,8 @@ html, body {
     font-family: 'Quicksand', sans-serif;
     font-weight: 400;
     /*position: absolute;*/
-    height: 50%;
-    width: 50%;
+    /*height: 50%;*/
+    /*width: 50%;*/
     margin: auto;
     bottom: 0;
     left: 0;
@@ -250,6 +250,8 @@ html, body {
 #hostWord {
     height: 100%;
     width: 100%;
+    text-align: center;
+    font-size: 68px;
         /*margin-top: 100px;*/
 }
 
@@ -288,12 +290,14 @@ html, body {
 }
 
 .playerScore .score {
+    overflow: hidden;
     text-align: center;
     background-color: #A8FF56;
 }
 
 .playerScore .playerName {
-    width: 77%;
+    overflow: hidden;
+    width: 55%;
     background-color: #ECFFE0;
 }
 

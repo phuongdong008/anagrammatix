@@ -8,11 +8,11 @@ link(href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700', rel='
     .mainScreenWrapper
         .header
             .info.user-name Welcome
-                nbsp
+                b &nbsp;
                 span#username #{username}
                 | !
-            div.btn.btn-logout
-                a(href='/logout', style='text-decoration: none;') Logout
+            a(href='/logout', style='text-decoration: none;')
+                div.btn.btn-logout Logout
         .middle
             button#btnCreateGame.btn.create-room Create Room
         .block
@@ -28,12 +28,15 @@ link(href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700', rel='
                             div(id ='#{object._id}', class = 'row')
                                 div(class = 'info user-name') #{object.username}
                                 .description  created room
-                                button.btn.btn-row.join-btn Join
+                                button(class = 'btn btn-row join-btn' id = '#{object.gameId}') Join
+                        else if (object.status == 'playing')
+                            div(id ='#{object._id}', class = 'row')
+                                div(class = 'info user-name') #{object.username}
+                                .description  is playing
                         else
                             div(id ='#{object._id}', class = 'row')
                                 div(class = 'info user-name') #{object.username}
                                 .description  is online
-                                //button.btn.btn-row Join
 
         input(value ='#{user._id}',type = 'hidden',id = 'userId' )
 

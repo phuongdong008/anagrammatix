@@ -25,8 +25,8 @@ exports.initGame = function(sio, socket, database){
     gameSocket.on('playerJoinGame', playerJoinGame);
     gameSocket.on('playerAnswer', playerAnswer);
     gameSocket.on('playerRestart', playerRestart);
-    gameSocket.on('playerLogin', playerLogin);
-    gameSocket.on('playerRegister', playerRegister);
+//    gameSocket.on('playerLogin', playerLogin);
+//    gameSocket.on('playerRegister', playerRegister);
     gameSocket.on('userCreateGame', userCreateGame);
 }
 
@@ -52,14 +52,16 @@ exports.initGame = function(sio, socket, database){
 //};
 
 function userCreateGame(data) {
-    console.log('user created new game ');
+    console.log('user ' + this.id + ' created new game ');
+    db.createGame(data.userId);
     // Create a unique Socket.IO Room
     var thisGameId = ( Math.random() * 100000 ) | 0;
 
     // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
-//    this.emit('newGameCreated', {gameId: thisGameId, mySocketId: this.id, userId: data.userId});
-    gameSocket.broadcast.emit('newGameCreated', {gameId: thisGameId, mySocketId: this.id, playerName: data.userName, userId: data.userId});
-//    console.log(data.userName + ' ' + data.userId);
+    this.broadcast.emit('newGameCreated', {gameId: thisGameId, mySocketId: this.id, playerName: data.userName, userId: data.userId});
+
+    //Save game information into database
+    db.createGame({gameId: thisGameId + "_" + this.id, userId: data.userId});
     // Join the Room and wait for the players
     this.join(thisGameId.toString());
 };
@@ -137,7 +139,7 @@ function playerRegister(data) {
  * @param data Contains data entered via player's input - playerName and gameId.
  */
 function playerJoinGame(data) {
-    //console.log('Player ' + data.playerName + 'attempting to join game: ' + data.gameId );
+    console.log('Player ' + data.playerName + ' attempting to join game: ' + data.gameId + ' socketId: ' + data.mySocketId );
 
     // A reference to the player's Socket.IO socket object
     var sock = this;
@@ -151,9 +153,12 @@ function playerJoinGame(data) {
         data.mySocketId = sock.id;
 
         // Join the room
-        sock.join(data.gameId);
+        this.join(data.gameId);
 
-        //console.log('Player ' + data.playerName + ' joining game: ' + data.gameId );
+        console.log('Player ' + data.playerName + ' joining game: ' + data.gameId + ' socketId: ' + this.id);
+
+        //Change status from create_game to playing
+        db.playing(data);
 
         // Emit an event notifying the clients that the player has joined the room.
         io.sockets.in(data.gameId).emit('playerJoinedRoom', data);

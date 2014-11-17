@@ -3,7 +3,8 @@ module.exports = function(mongoose){
         username: {type: String, unique: true},
         password: {type: String},
         online: {type: Boolean},
-        status: {type: String}
+        status: {type: String},
+        gameId: {type: String}
     });
 
     var Account = mongoose.model('Account', AccountSchema);
@@ -53,9 +54,15 @@ module.exports = function(mongoose){
                         });
     }
 
-    var createGame = function(userId){
-        Account.update({_id: userId}, {status: 'create_game'}, function(err,doc){
+    var createGame = function(data){
+        Account.update({_id: data.userId}, {status: 'create_game', gameId: data.gameId}, function(err,doc){
 //            console.log('err: ' + err);
+        })
+    }
+
+    var playing = function(data){
+        Account.update({username: data.playerName}, {status: 'playing'}, function(err,doc){
+            console.log('err: ' + err);
         })
     }
 
@@ -66,6 +73,7 @@ module.exports = function(mongoose){
         register: register,
         login: login,
         createGame: createGame,
+        playing: playing,
         Account: Account
     }
 }

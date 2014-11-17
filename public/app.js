@@ -105,6 +105,7 @@ jQuery(function($){
             // So on the 'host' browser window, the App.Host.updateWiatingScreen function is called.
             // And on the player's browser, App.Player.updateWaitingScreen is called.
             App[App.myRole].updateWaitingScreen(data);
+//            alert('playerJoinedRoom');
         },
 
         /**
@@ -113,6 +114,7 @@ jQuery(function($){
          */
         beginNewGame : function(data) {
             App[App.myRole].gameCountdown(data);
+//            alert('beginNewGame');
         },
 
         /**
@@ -142,7 +144,8 @@ jQuery(function($){
          * @param data
          */
         gameOver : function(data) {
-            App[App.myRole].endGame(data);
+//            App[App.myRole].endGame(data);
+            App.Host.endGame(data);
         },
 
         /**
@@ -293,7 +296,7 @@ jQuery(function($){
                 $('#btnCreateGame').remove();
                 $('.middle').append('<div class="create-room">You created room. Please wait for user join!</div>');
                 IO.socket.emit('userCreateGame',{userName: App.$userName,userId: App.$userId});
-                console.log(App.$userName + ' ' + App.$userId);
+                console.log(App.$userName + ' socketId: ' + App.mySocketId);
             },
 
             /**
@@ -364,7 +367,7 @@ jQuery(function($){
 //                App.$gameArea.html(App.$hostGame);
                 App.$gameArea.html('<div id="host-game-template-2"></div>');
                 $('#host-game-template-2').html(App.$hostGame);
-                App.doTextFit('#hostWord');
+//                App.doTextFit('#hostWord');
 
                 // Begin the on-screen countdown timer
                 var $secondsLeft = $('#hostWord');
@@ -395,7 +398,7 @@ jQuery(function($){
                 App.Player.newWord(data);
                 // Insert the new word into the DOM
                 $('#hostWord').text(data.word);
-                App.doTextFit('#hostWord');
+//                App.doTextFit('#hostWord');
 
                 // Update the data for the current round
                 App.Host.currentCorrectAnswer = data.answer;
@@ -463,11 +466,19 @@ jQuery(function($){
                 // Display the winner (or tie game message)
                 if(tie){
                     $('#hostWord').text("It's a Tie!");
-                } else {
+                } else if (winner != p1Name) {
                     $('#hostWord').text( winner + ' Wins!!' );
+                } else{
+                    $('#hostWord').text( 'You are Winner!!' );
                 }
-                App.doTextFit('#hostWord');
-
+//                App.doTextFit('#hostWord');
+                $('#gameArea').append(
+                    // Create a button to start a new game.
+                    $('<button>Start Again</button>')
+                        .attr('id','btnPlayerRestart')
+                        .addClass('btn')
+                        .addClass('btnGameOver')
+                );
                 // Reset game data
                 App.Host.numPlayersInRoom = 0;
                 App.Host.isNewGame = true;
@@ -647,7 +658,7 @@ jQuery(function($){
                 //App.Host.newWord()
                 // Insert the new word into the DOM
                 $('#hostWord').text(data.word);
-                App.doTextFit('#hostWord');
+//                App.doTextFit('#hostWord');
 
                 // Update the data for the current round
                 App.Host.currentCorrectAnswer = data.answer;
@@ -680,17 +691,17 @@ jQuery(function($){
             /**
              * Show the "Game Over" screen.
              */
-            endGame : function() {
-                $('#gameArea')
-                    .html('<div class="gameOver">Game Over!</div>')
-                    .append(
-                        // Create a button to start a new game.
-                        $('<button>Start Again</button>')
-                            .attr('id','btnPlayerRestart')
-                            .addClass('btn')
-                            .addClass('btnGameOver')
-                    );
-            }
+//            endGame : function() {
+//                $('#gameArea')
+//                    .html('<div class="gameOver">Game Over!</div>')
+//                    .append(
+//                        // Create a button to start a new game.
+//                        $('<button>Start Again</button>')
+//                            .attr('id','btnPlayerRestart')
+//                            .addClass('btn')
+//                            .addClass('btnGameOver')
+//                    );
+//            }
         },
 
 
@@ -709,7 +720,7 @@ jQuery(function($){
 
             // Display the starting time on the screen.
             $el.text(startTime);
-            App.doTextFit('#hostWord');
+//            App.doTextFit('#hostWord');
 
             // console.log('Starting Countdown...');
 
@@ -720,7 +731,7 @@ jQuery(function($){
             function countItDown(){
                 startTime -= 1
                 $el.text(startTime);
-                App.doTextFit('#hostWord');
+//                App.doTextFit('#hostWord');
 
                 if( startTime <= 0 ){
                     // console.log('Countdown Finished.');
