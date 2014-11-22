@@ -1,37 +1,43 @@
-<!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-    <link href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Fantastic Game</title>
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link href="./resource/css" rel="stylesheet" type="text/css">
+<link href="./resource/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="./resource/simple-line-icons.min.css" rel="stylesheet" type="text/css">
+<link href="./resource/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="./resource/login.css" rel="stylesheet" type="text/css">
+<link href="./resource/components.css" rel="stylesheet" type="text/css">
 
-    <link href="../css/styles.css" rel="stylesheet">
-
-    <link href="../css/style.css" rel="stylesheet">
-
+<script src="./libs/jquery-2.0.2.min.js" type="text/javascript"></script>
+	
 </head>
-<body>
-    <form id="formLogin" method="post" action="/login">
-        <div class="loginGameWrapper">
-            <div class="info">
-                <label for="inputUsername">Username:</label>
-                <input id="inputUsername" name="username" type="text" value="test"/>
-            </div>
+<body class="login">
 
-            <div class="info">
-                <label for="inputPassword">Password:</label>
-                <input id="inputPassword" name="password" type="password" value="123"/>
-            </div>
+<div class="content">
 
-            <div class="info buttons btnLogin">
-                <button id="btnLogin" class="btn">Login</button>
-                <div id="signUp">or <a href="/register">Sign Up</a></div>
-            </div>
-        </div>
-    </form>
+	<!-- BEGIN LOGIN FORM -->
+<form action="/login" class="login-form"  method="post" accept-charset="utf-8" autocomplete="off">
 
-    <!--<script src="socket.io/socket.io.js"></script>-->
+	<h3 class="form-title">Login to your account</h3>
+	
+		
+		<div class="form-group"><label for="UserEmail"></label><div class="input-icon"><i class="fa fa-envelope"></i><input name="username" class="form-signin form-control" placeholder="Email or Username" maxlength="64" id="UserEmail" value=""></div></div>
+		<div class="form-group"><label for="UserPassword"></label><div class="input-icon"><i class="fa fa-lock"></i><input name="password" class="form-signin form-control" placeholder="Password" type="password" id="UserPassword" value=""></div></div>		<div class="form-actions">
+		<button type="submit" class="btn blue pull-right">Login </button><br>
+		
+		</div>
+		
+		<div class="create-account">
+		<p>
+            Don't have an account yet ?&nbsp; <a href="register" id="register-btn">
+            Create an account </a>
+		</p>
 
-    <!--<script src="../app.js"></script>-->
-</body>
-</html>
+	    </div>
+</form><!-- END LOGIN FORM -->
+
+
+</div>
+</body></html>

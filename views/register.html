@@ -1,35 +1,53 @@
-<!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-    <link href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Fantastic Game</title>
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link href="./resource/css" rel="stylesheet" type="text/css">
+<link href="./resource/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="./resource/simple-line-icons.min.css" rel="stylesheet" type="text/css">
+<link href="./resource/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="./resource/login.css" rel="stylesheet" type="text/css">
+<link href="./resource/components.css" rel="stylesheet" type="text/css">
 
-    <link href="../css/styles.css" rel="stylesheet">
-
-    <link href="../css/style.css" rel="stylesheet">
-    <form id="formRegister" method="post" action="/register">
-        <div class="loginGameWrapper">
-            <div class="info">
-                <label for="inputUsername">Username:</label>
-                <input id="inputUsername" name="username" type="text" required="required"/>
-            </div>
-
-            <div class="info">
-                <label for="inputPassword">Password:</label>
-                <input id="inputPassword" name="password" type="password" required="required"/>
-            </div>
-
-            <div class="info buttons btnLogin">
-                <button id="btnRegister" class="btn">Register</button>
-                <!--<input type="submit">-->
-                <div id="btnBack">or <a href="/">Log In</a></div>
-            </div>
-        </div>
-    </form>
+<script src="./libs/jquery-2.0.2.min.js" type="text/javascript"></script>
 
 </head>
-<body>
+<body class="login" style="">
 
-</body>
-</html>
+<div class="content">
+
+
+
+<!-- BEGIN REGISTRATION FORM -->
+<form action="/register" class="register-form"  method="post" accept-charset="utf-8" autocomplete="off">
+
+<h3>Sign up today - it's free!</h3>
+	<p>
+		 Enter your account details below:
+	</p>
+
+	<div class="form-group"><label for="UserEmail"></label><div class="input-icon"><i class="fa fa-envelope"></i><input name="username" class="form-signin form-control" placeholder="Email or Username" maxlength="64"  ></div></div>
+	<div class="form-group"><label for="UserDisplayName"></label><div class="input-icon"><i class="fa fa-user"></i><input name="displayName" class="form-signin form-control" placeholder="Display Name" maxlength="64"  ></div></div>
+	<div class="form-group"><label for="UserPassword"></label><div class="input-icon"><i class="fa fa-lock"></i><input name="password" class="form-signin form-control" placeholder="Password" type="password" ></div></div>
+	<div class="form-group"><label for="UserPasswordConfirm"></label><div class="input-icon"><i class="fa fa-lock"></i><input name="password2" class="form-signin form-control" placeholder="Retype Password" type="password" ></div></div>
+	<div class="form-group">
+
+		<div id="register_tnc_error">
+		</div>
+	</div>
+	<div class="form-actions">
+		<button id="register-back-btn" type="button" class="btn">
+		<i class="m-icon-swapleft"></i> Back </button>
+		<button type="submit" class="btn blue pull-right">Sign Up </button>	</div>
+</form>
+<!-- END REGISTRATION FORM -->
+
+<script type="text/javascript">
+    $("#register-back-btn").click(function() {
+        window.location.href="login";
+    });
+</script>
+
+</div>
+</body></html>

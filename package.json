@@ -7,9 +7,7 @@
         "express": "3.4.7",
         "socket.io":"0.9.16",
         "mongoose": "3.8.17",
-        "ejs": "1.0.0",
-        "jade": "1.7.0",
-        "body-parser": "1.9.1"
+        "jade": "1.7.0"
     }
 }
 

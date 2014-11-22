@@ -1,92 +1,78 @@
-doctype html
-link(href='../css/styles.css', rel='stylesheet')
-link(href='../css/style.css', rel='stylesheet')
-link(href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700', rel='stylesheet', type='text/css')
-#gameArea
-    // This is where the templates defined below will be used
-#main-screen-template.hidden
-    .mainScreenWrapper
-        .header
-            .info.user-name Welcome
-                b &nbsp;
-                span#username #{username}
-                | !
-            a(href='/logout', style='text-decoration: none;')
-                div.btn.btn-logout Logout
-        .middle
-            button#btnCreateGame.btn.create-room Create Room
-        .block
-            .tab.info Users Online
-            .table
-                div(class = 'first-row')
-                - var i = 0;
-                each object in onlineList
-                    if (object.username != username)
-                        //- i++
-                        //if (i == 1)
-                        if (object.status == 'create_game')
-                            div(id ='#{object._id}', class = 'row')
-                                div(class = 'info user-name') #{object.username}
-                                .description  created room
-                                button(class = 'btn btn-row join-btn' id = '#{object.gameId}') Join
-                        else if (object.status == 'playing')
-                            div(id ='#{object._id}', class = 'row')
-                                div(class = 'info user-name') #{object.username}
-                                .description  is playing
-                        else
-                            div(id ='#{object._id}', class = 'row')
-                                div(class = 'info user-name') #{object.username}
-                                .description  is online
+html
+    head
+        meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+        title Fantastic Game
+        link(href="./resource/css", rel="stylesheet", type="text/css")
+        link(href="./resource/bootstrap.min.css", rel="stylesheet", type="text/css")
+        link(href="./resource/login.css", rel="stylesheet", type="text/css")
+        link(href="./resource/components.css", rel="stylesheet", type="text/css")
+        link(href="./resource/home.css", rel="stylesheet", type="text/css")
 
-        input(value ='#{user._id}',type = 'hidden',id = 'userId' )
+        script(src='./libs/jquery-2.0.2.min.js')
 
-// This screen appears when a user clicks "CREATE" on the Title Screen
-#create-game-template.hidden
-    .createGameWrapper
-        .info Open this site on your mobile device:
-        #gameURL.infoBig Error!
-        .info
-            | Then click
-            strong JOIN
-            | and
-            br
-            | enter the following Game ID:
-        #spanNewGameCode.gameId Error!
-        #playersWaiting
-// This scrreen appears when a player clicks "JOIN" on the Title Screen
-#join-game-template.hidden
-    .joinGameWrapper
-        .info
-            label(for='inputPlayerName') Your Name:
-            input#inputPlayerName(type='text')
-        .info
-            label(for='inputGameId') Game ID:
-            input#inputGameId(type='text')
-        .info.buttons
-            button#btnStart.btn Start
-            #playerWaitingMessage
-// This is the 'Host' screen. It displays the word for each player to match
-#host-game-template.hidden
-    #playerScores
-        #player1Score.playerScore
-            span.score 0
-            span.playerName Player 1
-        #player2Score.playerScore
-            span.playerName Player 2
-            span.score 0
-    #wordArea
-        #hostWord 5
-// JavaScript Libraries
-// jQuery!
-script(src='../libs/jquery-2.0.2.min.js')
-//
-   TextFit resizes text to fill a container.
-          It's used so the titles and game words fit properly on any size screen.
-          https://github.com/STRML/textFit
-script(src='../libs/textFit.min.js')
-//
-   FastClick is used to eliminate the 300ms delay when clicking items on a mobile device
-          https://github.com/ftlabs/fastclick
+body.login
+    .content
+        #gameArea
+            // This is where the templates defined below will be used
+        #main-screen-template.hidden
+            p#p_online_users.p_title Online users
+                each other in onlineList
+                    if (other.username != user.username)
+                        div(id ='#{other._id}', class = 'div_user_online')
+                            img.user_online_img(src="")
+                            .profile_right
+                                p.user_name #{other.displayName}
+                                p.status #{other.caption}
+                            img.img_next(src="resource/next.png")
+
+                        script.
+                            $('##{other._id}').data('game_id', {data: '#{other.gameId}'});
+
+            p.p_title(style="margin-top:40px") Your profile
+            .div_user_online
+                img.user_online_img(src="")
+                .profile_right
+                    p.user_name #{user.displayName}
+                    p.status #{user.caption}
+            p.p_title(style="margin-top:40px; margin-bottom:0px") Application
+            #btn_logout.sub_list
+                img(src="resource/quit.png", style="float:left;width:20px;height:20px")
+                p(style="float:left;padding-left: 10px;") Log out and quit game
+
+            script.
+                $("#btn_logout").click(function() {
+                window.location.href="logout"
+                });
+
+        // This scrreen appears when a player clicks "JOIN" on the Title Screen
+        #join-game-template.hidden
+            .joinGameWrapper
+                .info
+                    label(for='inputPlayerName') Your Name:
+                    input#inputPlayerName(type='text')
+                .info
+                    label(for='inputGameId') Game ID:
+                    input#inputGameId(type='text')
+                .info.buttons
+                    button#btnStart.btn Start
+                    #playerWaitingMessage
+
+        // This is the 'Host' screen. It displays the word for each player to match
+        #host-game-template.hidden
+            #playerScores
+                #player1Score.playerScore
+                    span.score 0
+                    span.playerName Player 1
+                #player2Score.playerScore
+                    span.playerName Player 2
+                    span.score 0
+            #wordArea
+                #hostWord 5
+
+script.
+    var userId = '#{user._id}';
+    var username = '#{user.username}';
+
 script(src='../libs/fastclick.js')
 //
    If Socket.IO is used with Express, then the /socket.io/ path will
@@ -94,4 +80,3 @@ script(src='../libs/fastclick.js')
 script(src='socket.io/socket.io.js')
 // app.js is where all the client-side Anagrammatix game logic
 script(src='../app.js')
-                                                 

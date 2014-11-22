@@ -1,6 +1,6 @@
 var io;
 var gameSocket;
-var db;
+var account;
 
 /**
  * This function is called by index.js to initialize a new game instance.
@@ -8,15 +8,14 @@ var db;
  * @param sio The Socket.IO library
  * @param socket The socket object for the connected client.
  */
-exports.initGame = function(sio, socket, database){
+exports.initGame = function(sio, socket, models){
     io = sio;
     gameSocket = socket;
-    db = database;
+    account = models.account;
 
     gameSocket.emit('connected', { message: "You are connected!" });
 
     // Host Events
-//    gameSocket.on('hostCreateNewGame', hostCreateNewGame);
     gameSocket.on('hostRoomFull', hostPrepareGame);
     gameSocket.on('hostCountdownFinished', hostStartGame);
     gameSocket.on('hostNextRound', hostNextRound);
@@ -25,8 +24,6 @@ exports.initGame = function(sio, socket, database){
     gameSocket.on('playerJoinGame', playerJoinGame);
     gameSocket.on('playerAnswer', playerAnswer);
     gameSocket.on('playerRestart', playerRestart);
-//    gameSocket.on('playerLogin', playerLogin);
-//    gameSocket.on('playerRegister', playerRegister);
     gameSocket.on('userCreateGame', userCreateGame);
 }
 
@@ -36,34 +33,21 @@ exports.initGame = function(sio, socket, database){
    *                             *
    ******************************* */
 
-/**
- * The 'START' button was clicked and 'hostCreateNewGame' event occurred.
- */
-//function hostCreateNewGame() {
-//    console.log('host created new game');
-//    // Create a unique Socket.IO Room
-//    var thisGameId = ( Math.random() * 100000 ) | 0;
-//
-//    // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
-//    this.emit('newGameCreated', {gameId: thisGameId, mySocketId: this.id});
-//
-//    // Join the Room and wait for the players
-//    this.join(thisGameId.toString());
-//};
-
 function userCreateGame(data) {
-    console.log('user ' + this.id + ' created new game ');
-    db.createGame(data.userId);
+    console.log('User with socket id: ' + this.id + ' created new game ');
+    account.createGame(data.userId);
     // Create a unique Socket.IO Room
     var thisGameId = ( Math.random() * 100000 ) | 0;
 
     // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
-    this.broadcast.emit('newGameCreated', {gameId: thisGameId, mySocketId: this.id, playerName: data.userName, userId: data.userId});
+    this.emit('newGameCreated', {gameId: thisGameId, mySocketId: this.id, playerName: data.userName, userId: data.userId});
 
     //Save game information into database
-    db.createGame({gameId: thisGameId + "_" + this.id, userId: data.userId});
+    account.createGame({gameId: thisGameId + "_" + this.id, userId: data.userId});
     // Join the Room and wait for the players
     this.join(thisGameId.toString());
+
+    console.log('User: ' + data.userName + ' join room ' + thisGameId);
 };
 
 /*
@@ -76,8 +60,9 @@ function hostPrepareGame(data) {
         mySocketId : sock.id,
         gameId : data.gameId
     };
-    //console.log("All Players Present. Preparing game...");
+
     io.sockets.in(data.gameId).emit('beginNewGame', data);
+    console.log("All Players Present. Preparing game... room: " + data.gameId);
 }
 
 /*
@@ -107,30 +92,6 @@ function hostNextRound(data) {
    *     PLAYER FUNCTIONS      *
    *                           *
    ***************************** */
-/**
- * A player clicked the 'LOGIN' button.
- * @param data
- */
-function playerLogin(data) {
-//    console.log('login');
-    db.login(data.username,data.password,function(success){
-        if (!success){
-            io.sockets.emit('loginFail',data);
-            console.log('login fail');
-            return;
-        }
-        console.log('login succeed');
-        io.sockets.emit('loginPass',data);
-    });
-}
-
-/**
- * A player clicked the 'Register' button.
- * @param data
- */
-function playerRegister(data) {
-    db.register(data.username,data.password);
-}
 
 /**
  * A player clicked the 'START GAME' button.
@@ -158,7 +119,7 @@ function playerJoinGame(data) {
         console.log('Player ' + data.playerName + ' joining game: ' + data.gameId + ' socketId: ' + this.id);
 
         //Change status from create_game to playing
-        db.playing(data);
+        account.playing(data);
 
         // Emit an event notifying the clients that the player has joined the room.
         io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
@@ -186,7 +147,6 @@ function playerAnswer(data) {
  * @param data
  */
 function playerRestart(data) {
-    // console.log('Player: ' + data.playerName + ' ready for new game.');
 
     // Emit the player's data back to the clients in the game room.
     data.playerId = this.id;

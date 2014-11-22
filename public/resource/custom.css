@@ -1,0 +1,95 @@
+/* here you can put your own css to customize and override the theme */
+
+/***
+Rounded Portlets
+***/
+/*
+.portlet {
+	border-radius: 4px !important;
+}
+
+.portlet .portlet-title {
+	border-radius: 4px 4px 0px 0px !important;
+}
+
+.portlet .portlet-body,
+.portlet .portlet-body .form-actions  {
+	border-radius: 0px 0px 4px 4px !important;
+}
+*/
+
+.page-header.navbar .top-menu .navbar-nav > li.spacer {
+	width: 10px;
+	height: 46px;
+	display: inline-block;
+	
+}
+
+.page-header.navbar .top-menu .navbar-nav > li.textitem {
+  color: #999999;
+  display: inline-block;
+	margin: 0px;
+	padding: 15px 4px 0px 4px;
+	height: 46px;
+	font-size: 12px;
+	font-weight: 300;
+}
+
+
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.active > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.active.open > a,
+.page-sidebar .page-sidebar-menu > li.active > a,
+.page-sidebar .page-sidebar-menu > li.active.open > a {
+  background: #2D74B3;
+}
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.active > a:hover, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li.active.open > a:hover,
+.page-sidebar .page-sidebar-menu > li.active > a:hover,
+.page-sidebar .page-sidebar-menu > li.active.open > a:hover {
+  background: #2D74B3;
+}
+
+.page-header.navbar .page-logo {
+	float: left;
+	display: block;
+	width: 235px;
+	height: 46px;
+	padding-left: 4px;
+	padding-top: 4px;
+	padding-right: 20px;
+}
+
+.flot-x-axis div { 
+    /* Rotate Axis Labels */
+    transform: translateX(50%) rotate(20deg); /* CSS3 */
+    transform-origin: 0 0;
+    
+    -ms-transform: translateX(50%) rotate(20deg); /* IE */
+    -ms-transform-origin: 0 0;
+
+    -moz-transform: translateX(50%) rotate(20deg); /* Firefox */
+    -moz-transform-origin: 0 0;
+
+    -webkit-transform: translateX(50%) rotate(45deg); /* Safari and Chrome */
+    -webkit-transform-origin: 0 0;
+
+    -o-transform: translateX(50%) rotate(20deg); /* Opera */
+    -o-transform-origin: 0 0;
+}
+
+.jqvmap-label {
+	z-index: 20000;
+}
+
+.top2 { margin-top:2px; }
+.top3 { margin-top:3px; }
+.top5 { margin-top:5px; }
+.top7 { margin-top:7px; }
+.top10 { margin-top:10px; }
+.top15 { margin-top:15px; }
+.top20 { margin-top:15px; }
+.top30 { margin-top:30px; }
+.top40 { margin-top:40px; }
+.top50 { margin-top:50px; }
+
+.padding-bottom-10 {
+	padding-bottom: 10px !important;
+}
