@@ -1,4 +1,9 @@
+body {
+    background-color: #918F8F !important;
+}
+
 .user_online_img{
+    margin-left: 4px;
 	float:left;
 	width:42px;
 	height: 42px;
@@ -10,6 +15,8 @@
 .div_user_online {
 	overflow: auto;
 	border-bottom: 1px solid #CDCDCD;
+    border-left: 1px solid #CDCDCD;
+    border-right: 1px solid #CDCDCD;
 	padding-top: 5px;
 	padding-bottom: 1px;
 }
@@ -34,9 +41,10 @@
 	font-size: 12px;
 }
 
-.img_next {
+.img_status {
 	float: right;
-	margin-top: 10px;
+    margin-top: 19px;
+    margin-right: 13px;
 }
 
 .p_title {
@@ -51,8 +59,128 @@
 	padding-bottom:5px;
 	padding-left: 5px;
 	overflow:auto;
+
+    border-bottom: 1px solid #CDCDCD;
+    border-left: 1px solid #CDCDCD;
+    border-right: 1px solid #CDCDCD;
 }
 
 .sub_list:hover {
 	cursor:pointer;
+}
+
+#div_users_info {
+    overflow: auto;
+}
+
+.user_info {
+    float: left;
+    text-align: center;
+    font-weight: 700;
+}
+
+.user_info img {
+    width: 87;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+}
+
+.user_info .playerName {
+    margin-top: 4px;
+    margin-bottom: 1px;
+}
+
+.user_info .score {
+
+}
+
+#ulAnswers {
+    padding: 20px;
+    background-color: #918F8F;
+    text-align: center;
+}
+
+#ulAnswers li {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.btnAnswer {
+    width : 100%;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 8px 18px;
+    white-space: nowrap;
+    text-decoration: none;
+    border: solid 1px #fff;
+    display:block;
+}
+
+.btnAnswer:hover {
+    cursor : pointer;
+    color: #fff;
+    text-decoration: none;
+    background-color: #CC7070;
+    -webkit-transition: background-color 0.3s linear;
+    -moz-transition: background-color 0.3s linear;
+    -ms-transition: background-color 0.3s linear;
+    -o-transition: background-color 0.3s linear;
+}
+
+.p_vs {
+    float: left;
+    position: relative;
+    left: 53px;
+    top: 33px;
+    font-weight: 600;
+}
+
+#wordArea {
+    text-align: center;
+    background-color: #CC7070;
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+#overArea {
+    text-align: center;
+    margin-top: 80px;
+}
+
+.btn {
+    width : 100%;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 8px 18px;
+    white-space: nowrap;
+    text-decoration: none;
+    border: solid 1px #fff;
+    display:block;
+    background-color: #918F8F;
+}
+
+.btn:hover{
+    cursor : pointer;
+    background-color: #CC7070;
+    color: #fff;
+    -webkit-transition: background-color 0.3s linear;
+    -moz-transition: background-color 0.3s linear;
+    -ms-transition: background-color 0.3s linear;
+    -o-transition: background-color 0.3s linear;
+}
+
+#btnPlayerRestart {
+    margin-top: 30px;
+}
+
+#btnHome {
+    margin-top: 10px;
+}
+
+#p_winner {
+    font-size: 21px;
 }

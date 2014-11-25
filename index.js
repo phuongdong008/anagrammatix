@@ -17,7 +17,7 @@ var server = require('http').createServer(app).listen(8000);
 var io = require('socket.io').listen(server);
 var socketId;
 var user;
-var usernameList = [];
+var onlineList = [];
 
 // Reduce the logging output of Socket.IO
 io.set('log level',1);
@@ -78,9 +78,9 @@ app.get('/', function(req, res) {
     if (!user)
         res.redirect('/login');
     else {
-        Account.onlineList(usernameList, function(docs){
-            res.render('index', {onlineList: docs, user: user });
-            printObject('onlineList: ', docs);
+        Account.onlineList(function(docs){
+            onlineList = docs;
+            res.render('index', {onlineList: onlineList, user: user });
         });
     }
 });
@@ -114,7 +114,15 @@ app.post('/register',function(req, res) {
 app.get('/logout',function(req,res) {
     user = req.session.user;
     if (user){
-        removeElement(usernameList, user.username);
+        Account.setStatus(user.username, 'offline');
+        req.session.user = null;
+        res.redirect('/login');
+    }
+});
+
+app.get('/kick_out',function(req,res) {
+    user = req.session.user;
+    if (user){
         req.session.user = null;
         res.redirect('/login');
     }
@@ -145,10 +153,12 @@ io.sockets.on('connection', function (socket) {
     user = socket.handshake.session.user;
 
     if (user != null) {
-        usernameList.push(user.username);
-        socket.broadcast.emit('userOnline', {user: user});
+        user.status = 'online';
+        onlineList.push(user);
+        Account.setStatus(user.username, 'online');
+
         console.log(user.username + ' connected');
-        console.log('username List: ' + usernameList.toString());
+        printObject('onlineList: ', onlineList);
     }
 
     socketId = socket.id;
@@ -160,8 +170,11 @@ io.sockets.on('connection', function (socket) {
 
         if (user != null) {
             socket.broadcast.emit('userOffline', {user: user});
-            removeElement(usernameList, user.username);
+            Account.setStatus(user.username, 'offline');
+            removeElement(onlineList, user);
+
             console.log(user.username + ' disconnected');
+            printObject('onlineList: ', onlineList);
         }
 
         else {

@@ -11,8 +11,8 @@ module.exports = function(mongoose){
 
     var Account = mongoose.model('Account', AccountSchema);
 
-    var onlineList = function(usernameList, callback){
-        Account.find({username: {$in : usernameList}} , function (err, docs){
+    var onlineList = function(callback){
+        Account.find({status: { $ne: 'offline'}} , function (err, docs){
             callback(docs);
         });
     }
@@ -31,26 +31,26 @@ module.exports = function(mongoose){
             password: password,
             displayName: displayName,
             avatarLink: 'http://s18.postimg.org/u7gq1zss9/avatar_default.jpg',
-            caption: 'Join me, we will have fun time',
-            status: ''
+            caption: 'Join me, we will have fun time'
         });
 
         user.save(function (err, doc) {
             callback(doc);
-            console.log('err: ' + err);
+            traceError ('Register: ', err);
         });
 
     }
 
 
-    var createGame = function(data){
-        Account.update({_id: data.userId}, {status: 'create_game', gameId: data.gameId}, function(err,doc){
+    var setStatus = function (username, status){
+        Account.update({username: username}, {status: status}, function(err,doc){
+            traceError ('Set status: ', err);
         })
     }
 
-    var playing = function(data){
-        Account.update({username: data.playerName}, {status: 'playing'}, function(err,doc){
-            console.log('err: ' + err);
+    var setGameId = function (username, gameId){
+        Account.update({username: username}, {gameId: gameId}, function(err,doc){
+            traceError ('Set game id: ', err);
         })
     }
 
@@ -64,8 +64,8 @@ module.exports = function(mongoose){
         onlineList: onlineList,
         register: register,
         login: login,
-        createGame: createGame,
-        playing: playing,
+        setStatus: setStatus,
+        setGameId: setGameId,
         Account: Account
     }
 }

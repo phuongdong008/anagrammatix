@@ -1,16 +1,17 @@
 html
     head
         meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Fantastic Game
         link(href="./resource/css", rel="stylesheet", type="text/css")
         link(href="./resource/bootstrap.min.css", rel="stylesheet", type="text/css")
-        link(href="./resource/login.css", rel="stylesheet", type="text/css")
+        link(href="./resource/main.css", rel="stylesheet", type="text/css")
         link(href="./resource/components.css", rel="stylesheet", type="text/css")
         link(href="./resource/home.css", rel="stylesheet", type="text/css")
 
         script(src='./libs/jquery-2.0.2.min.js')
 
-body.login
+body.main
     .content
         #gameArea
             // This is where the templates defined below will be used
@@ -18,19 +19,19 @@ body.login
             p#p_online_users.p_title Online users
                 each other in onlineList
                     if (other.username != user.username)
-                        div(id ='#{other._id}', class = 'div_user_online')
-                            img.user_online_img(src="")
+                        div(id ='#{other._id}', class = 'div_user_online', data-game-id='#{other.gameId}', data-status='#{other.status}')
+                            img.user_online_img(src="#{other.avatarLink}")
                             .profile_right
                                 p.user_name #{other.displayName}
                                 p.status #{other.caption}
-                            img.img_next(src="resource/next.png")
-
-                        script.
-                            $('##{other._id}').data('game_id', {data: '#{other.gameId}'});
+                            if (other.status == 'available')
+                                img.img_status(src="resource/available_sign.png")
+                            else
+                                img.img_status(src="resource/playing_sign.png")
 
             p.p_title(style="margin-top:40px") Your profile
             .div_user_online
-                img.user_online_img(src="")
+                img.user_online_img(src="#{user.avatarLink}")
                 .profile_right
                     p.user_name #{user.displayName}
                     p.status #{user.caption}
@@ -44,34 +45,41 @@ body.login
                 window.location.href="logout"
                 });
 
-        // This scrreen appears when a player clicks "JOIN" on the Title Screen
-        #join-game-template.hidden
-            .joinGameWrapper
-                .info
-                    label(for='inputPlayerName') Your Name:
-                    input#inputPlayerName(type='text')
-                .info
-                    label(for='inputGameId') Game ID:
-                    input#inputGameId(type='text')
-                .info.buttons
-                    button#btnStart.btn Start
-                    #playerWaitingMessage
 
         // This is the 'Host' screen. It displays the word for each player to match
         #host-game-template.hidden
-            #playerScores
-                #player1Score.playerScore
-                    span.score 0
-                    span.playerName Player 1
-                #player2Score.playerScore
-                    span.playerName Player 2
-                    span.score 0
+            #div_users_info
+                #user_info1.user_info
+                    img(src="http://s18.postimg.org/u7gq1zss9/avatar_default.jpg")
+                    p.playerName Phuong Dong
+                    p
+                        | Score:&#160;
+                        span.score 0
+                p.p_vs vs
+                #user_info2.user_info(style="float:right")
+                    img(src="http://s18.postimg.org/u7gq1zss9/avatar_default.jpg")
+                    p.playerName Phuong Dong
+                    p
+                        | Score:&#160;
+                        span.score 0
+            div(style="clear:both")
             #wordArea
-                #hostWord 5
+                #hostWord ales
+            #overArea
+                p#p_winner You are winner :)
+                a#btnPlayerRestart.btn Restart game
+                a#btnHome.btn Return home
+
 
 script.
-    var userId = '#{user._id}';
-    var username = '#{user.username}';
+    var userData = {
+        userName: '#{user.username}',
+        userId: '#{user._id}',
+        avatarLink: '#{user.avatarLink}',
+        caption: '#{user.caption}',
+        status: '#{user.status}'
+    }
+
 
 script(src='../libs/fastclick.js')
 //

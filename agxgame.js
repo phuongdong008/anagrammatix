@@ -25,6 +25,8 @@ exports.initGame = function(sio, socket, models){
     gameSocket.on('playerAnswer', playerAnswer);
     gameSocket.on('playerRestart', playerRestart);
     gameSocket.on('userCreateGame', userCreateGame);
+    gameSocket.on('unSubscribe', playerUnSubscribe);
+    gameSocket.on('reJoinMyRoom', reJoinMyRoom);
 }
 
 /* *******************************
@@ -34,16 +36,24 @@ exports.initGame = function(sio, socket, models){
    ******************************* */
 
 function userCreateGame(data) {
-    console.log('User with socket id: ' + this.id + ' created new game ');
-    account.createGame(data.userId);
+    console.log('User with player id (socket id): ' + this.id + ' created new game ');
+
     // Create a unique Socket.IO Room
     var thisGameId = ( Math.random() * 100000 ) | 0;
+    data.gameId = thisGameId;
+    data.playerId = this.id;
+    data.status = 'available';
 
-    // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
-    this.emit('newGameCreated', {gameId: thisGameId, mySocketId: this.id, playerName: data.userName, userId: data.userId});
+    // Return the Room ID (gameId) and playerID (socketId) to the browser client
+    this.emit('newGameCreated', data);
+
+    // Notify to all online users about the appearance of this user.
+    this.broadcast.emit('userOnline', data);
 
     //Save game information into database
-    account.createGame({gameId: thisGameId + "_" + this.id, userId: data.userId});
+    account.setGameId(data.userName, thisGameId);
+    account.setStatus(data.userName, data.status);
+
     // Join the Room and wait for the players
     this.join(thisGameId.toString());
 
@@ -55,11 +65,14 @@ function userCreateGame(data) {
  * @param data contains {gameId}
  */
 function hostPrepareGame(data) {
-    var sock = this;
-    var data = {
-        mySocketId : sock.id,
-        gameId : data.gameId
-    };
+    //Change status of all players to playing.
+    var players = data.listPlayers;
+    for (var i = 0; i < players.length; i++){
+        players[i].status = 'playing';
+        account.setStatus(players[i].userName, 'playing');
+    }
+
+    this.broadcast.emit('changeStatus', players);
 
     io.sockets.in(data.gameId).emit('beginNewGame', data);
     console.log("All Players Present. Preparing game... room: " + data.gameId);
@@ -100,7 +113,8 @@ function hostNextRound(data) {
  * @param data Contains data entered via player's input - playerName and gameId.
  */
 function playerJoinGame(data) {
-    console.log('Player ' + data.playerName + ' attempting to join game: ' + data.gameId + ' socketId: ' + data.mySocketId );
+    var user = data.userData;
+    console.log('Player ' + user.userName + ' attempting to join game: ' + data.gameId + ' socketId (playerId): ' + user.playerId );
 
     // A reference to the player's Socket.IO socket object
     var sock = this;
@@ -110,16 +124,11 @@ function playerJoinGame(data) {
 
     // If the room exists...
     if( room != undefined ){
-        // attach the socket id to the data object.
-        data.mySocketId = sock.id;
 
         // Join the room
         this.join(data.gameId);
 
-        console.log('Player ' + data.playerName + ' joining game: ' + data.gameId + ' socketId: ' + this.id);
-
-        //Change status from create_game to playing
-        account.playing(data);
+        console.log('Player ' + user.userName + ' joining game: ' + data.gameId + ' socketId (playerId): ' + this.id);
 
         // Emit an event notifying the clients that the player has joined the room.
         io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
@@ -149,8 +158,20 @@ function playerAnswer(data) {
 function playerRestart(data) {
 
     // Emit the player's data back to the clients in the game room.
-    data.playerId = this.id;
     io.sockets.in(data.gameId).emit('playerJoinedRoom',data);
+}
+
+/*
+ * This function haven't been used yet. Maybe in the future.
+ */
+function playerUnSubscribe(room){
+    this.leave(room);
+}
+
+function reJoinMyRoom(userData){
+    this.join(userData.gameId);
+    this.broadcast.emit('changeStatus', [userData]);
+    account.setStatus(userData.userName, userData.status);
 }
 
 /* *************************
@@ -167,7 +188,7 @@ function playerRestart(data) {
  */
 function sendWord(wordPoolIndex, gameId) {
     var data = getWordData(wordPoolIndex);
-    io.sockets.in(data.gameId).emit('newWordData', data);
+    io.sockets.in(gameId).emit('newWordData', data);
 }
 
 /**
