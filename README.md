@@ -7,7 +7,7 @@ There is *sometimes* a working demo up at http://agx.terpstra.co:8888 - but no g
 ## To Install
 
 1. Ensure Node.js is installed
-2. Clone this repository - `git clone https://github.com/ericterpstra/anagrammatix.git`
+2. Clone this repository - `git clone https://github.com/phuongdong008/anagrammatix.git`
 3. Install the dependences:
     1. `cd anagrammatix`
     2. `npm install`
