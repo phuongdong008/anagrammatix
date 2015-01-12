@@ -34,6 +34,9 @@ db.once('open', function(){
 var Account = require('./models/Account')(mongoose);
 var models = {account: Account};
 
+// When the server starts or restarts, make sure that all users status are offline.
+Account.setStatusAllUsers('offline');
+
 // We define the key of the cookie containing the Express SID
 var EXPRESS_SID_KEY = 'express.sid';
 

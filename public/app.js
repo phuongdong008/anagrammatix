@@ -327,9 +327,17 @@ jQuery(function($){
                 .find('.playerName')
                 .html(App.listPlayers[0].userName);
 
+            $('#user_info1')
+                .find('.playerAvatar')
+                .attr("src", App.listPlayers[0].avatarLink);
+
             $('#user_info2')
                 .find('.playerName')
                 .html(App.listPlayers[1].userName);
+
+            $('#user_info2')
+                .find('.playerAvatar')
+                .attr("src", App.listPlayers[1].avatarLink);
 
             // Set the Score section on screen to 0 for each player.
             $('#user_info1').find('.score').attr('id',App.listPlayers[0].playerId);
@@ -444,7 +452,7 @@ jQuery(function($){
             $('#hostWord').hide();
             $('#overArea').show();
             $('#btnHome').click(function(){
-                App.showMainScreen(false);
+                App.showMainScreen(false);  
                 IO.socket.emit('reJoinMyRoom', App.userData);
             });
 
